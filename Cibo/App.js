@@ -3,7 +3,8 @@ import { StyleSheet, Text, View, Image, Dimensions } from 'react-native'
 import * as Expo from 'expo'
 import { Button } from 'react-native-elements'
 import { Ionicons } from '@expo/vector-icons'
-import SvgUri from 'react-native-svg-uri'
+import  AppContainer  from './Tabs/Route'
+
 
 export default class App extends React.Component {
   constructor(props){
@@ -35,17 +36,21 @@ export default class App extends React.Component {
   }
   
   render() {
-    return (
-      <View style={styles.container}>
-        {this.state.SignedIn ? (
-          <LoggedInPage />
-        ) : (
+    
+    if(this.state.SignedIn){
+      return <AppContainer />
+    }
+    else{
+      return (
+        <View style={styles.container}>
           <LoginPage FacebookLogin={this.FacebookLogin} />
-        )}
-      </View>
-    )
+          </View>
+      )
+    }
         }
+       
       }
+    
 
 const LoginPage = props => {
   return (
@@ -59,13 +64,11 @@ const LoginPage = props => {
   )
 }
 
-const LoggedInPage = props => {
-  return (
-    <View style={styles.container}>
-      <Text style={styles.header}>Welcome</Text>
-    </View>
-  )
-}
+
+
+
+
+
 
 
 const styles = StyleSheet.create({
