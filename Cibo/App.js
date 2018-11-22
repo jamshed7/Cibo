@@ -16,7 +16,7 @@ export default class App extends React.Component {
     try{
       const {type, token, expires, permissions, declinedPermissions} = await Expo.Facebook.logInWithReadPermissionsAsync('2183243971931078',{
         permissions : ['public_profile','email'],
-        behavior: 'native'
+        behavior: 'browser'
       })
 
       if(type === 'success'){
@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
   Title: {
     fontSize : 45,
     color: '#FFFFFF',
-    marginTop: 100,
+    marginTop: 50,
     textAlign: 'center',
     fontWeight: '700'
   },
