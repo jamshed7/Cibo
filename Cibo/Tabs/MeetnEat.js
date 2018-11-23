@@ -13,22 +13,18 @@ class MeetnEat extends React.Component {
 
   render() {
     return (
-      <SafeAreaView style = {{flex: 1, backgroundColor: '#008c9e'}}>
-      <Header outerContainerStyles = {{ borderBottomWidth:0}} backgroundColor = "#008c9e" centerComponent={{ text: "Meet and Eat", style: {fontSize: 30, fontWeight:'300',color: '#fff' }}}/>
+      <SafeAreaView style = {{flex: 1, backgroundColor: '#03A9F4'}}>
+      <Header outerContainerStyles = {{ borderBottomWidth:0}} backgroundColor = "#03A9F4" centerComponent={{ text: "Meet and Eat", style: {fontSize: 30, fontWeight:'300',color: '#fff' }}}/>
       <ScrollView style = {styles.container}>
-      <Card isDark style = {{backgroundColor : "#008c9e", borderRadius : 10, marginTop:10, color:'white'}}>
+      <Card isDark style = {{backgroundColor : "#03A9F4", borderRadius : 10, marginTop:10, color:'white'}}>
       <CardImage source = {{uri:'https://images.unsplash.com/photo-1535700601052-b90a78c466f5?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=f50a3776b0916ec81eac3ab6fc2d514c&auto=format&fit=crop&w=1340&q=80'}} ></CardImage>  
-      <CardTitle title = "Good food is all the sweater when shared with great friends" subtitle = "Organize an event or as we call it - Meetn'Eat" ></CardTitle>
+      <CardTitle title = "Good food is all the sweater when shared with great friends" subtitle = "Organize or attend an event or as we call it - Meetn'Eat" ></CardTitle>
+      <CardAction separator={true} inColumn={false}>
       <CardButton color = "white" title= "Setup an event" onPress = {() => this.props.navigation.navigate('CreateEvent')}></CardButton>
+      <CardButton color = "white" title= "View Events" onPress = {() => this.props.navigation.navigate('AllEvents')}></CardButton>
+      </CardAction>
       </Card>
-      <Text style = {{alignSelf:'center',color:'white',fontSize:40,fontWeight:'200'}}>Or</Text>
-      <Card isDark style = {{backgroundColor : "#008c9e", borderRadius : 10, marginTop:10, color:'white'}}>
-      <CardImage source = {{uri:'https://images.unsplash.com/photo-1517456793572-1d8efd6dc135?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=2509062230c1f470a9d5b87310fee627&auto=format&fit=crop&w=1350&q=80'}} ></CardImage>  
-      <CardTitle title = "Very few things in life are as good as food and friends." subtitle = "Find a local MeetnEat - find food and friends." ></CardTitle>
-      <CardButton color = "white" title= "View Events" onPress = {() => this.props.navigation.navigate('CreateEvent')}></CardButton>
-      </Card>
-      
-
+    
       </ScrollView>
       </SafeAreaView> 
     );
@@ -43,7 +39,11 @@ const EventDetails = t.struct({
     Address: t.String,
     Contact: t.String
   })
-  
+
+const RSVP = t.struct({
+    Name: t.String,
+    Email: t.String
+})
 
 
 class CreateEvent extends React.Component{
@@ -68,9 +68,9 @@ class CreateEvent extends React.Component{
   render() {
     if(this.state.Created){
       return(
-        <SafeAreaView style = {{flex: 1, backgroundColor: '#008c9e'}}>
+        <SafeAreaView style = {{flex: 1, backgroundColor: '#03A9F4'}}>
         <ScrollView style = {styles.container}>
-        <Card isDark style = {{backgroundColor : "#008c9e", borderRadius : 10, marginTop:10, color:'white'}}>
+        <Card isDark style = {{backgroundColor : "#03A9F4", borderRadius : 10, marginTop:10, color:'white'}}>
         <CardImage source = {{uri:'https://images.unsplash.com/photo-1535700601052-b90a78c466f5?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=f50a3776b0916ec81eac3ab6fc2d514c&auto=format&fit=crop&w=1340&q=80'}} ></CardImage>  
         <CardTitle title = "Thank You." subtitle = "We hope you have a great MeetnEat." ></CardTitle>
         </Card>
@@ -81,7 +81,7 @@ class CreateEvent extends React.Component{
     else{
       return (
         <SafeAreaView style = {{flex: 1, backgroundColor: '#008c9e'}}>
-        <Header outerContainerStyles = {{ borderBottomWidth:0}} backgroundColor = "#008c9e" centerComponent={{ text: "Meet and Eat", style: {fontSize: 30, fontWeight:'300',color: '#fff' }}}/>
+        <Header outerContainerStyles = {{ borderBottomWidth:0}} backgroundColor = "#03A9F4" centerComponent={{ text: "Meet and Eat", style: {fontSize: 30, fontWeight:'300',color: '#fff' }}}/>
         <ScrollView style = {styles.container}>
         <Form ref={c => this.CreateEventField = c} type = {EventDetails} />
         <Button title = "Confirm MeetnEat" onPress = {this.SendData}></Button>
@@ -93,19 +93,16 @@ class CreateEvent extends React.Component{
 }
 
 class AllEvents extends React.Component{
-  static navigationOptions = {
-    header: null,
-    }
-
+  
   state = {
     data : []
   };
 
   componentWillMount(){
-    this.fetchArticles()
+    this.fetchEvents()
   }
 
-  fetchArticles = async() =>{
+  fetchEvents = async() =>{
     const response = await fetch('https://cibo-api.herokuapp.com/MeetnEat/ShowAllEvents')
     const json = await response.json()
     this.setState({data:json})
@@ -113,16 +110,21 @@ class AllEvents extends React.Component{
 
   render() {
     return (
-      <SafeAreaView style={{flex: 1, backgroundColor: '#353866'}}>
-      <Header outerContainerStyles = {{ borderBottomWidth:0}} backgroundColor = "#353866" centerComponent={{ text: 'The Cibo Editorial', style: {fontSize: 30, fontWeight:'300',color: '#fff' }}}/>
+      <SafeAreaView style={{flex: 1, backgroundColor: '#03A9F4'}}>
+      <Header outerContainerStyles = {{ borderBottomWidth:0}} backgroundColor = "#03A9F4" centerComponent={{ text: 'Local Meet n\' Eats', style: {fontSize: 30, fontWeight:'300',color: '#fff' }}}/>
       <ScrollView style = {styles.container}>
         <FlatList
         data = {this.state.data}
         keyExtractor={(item) => item._id.$oid}
         renderItem={({ item }) => (
-          <Card>
-            
-          </Card>
+          <Card  style = {{backgroundColor : "white", borderRadius : 10, marginTop:10}}>
+          <CardTitle title={item['Event Name']} color = '#1976D2'></CardTitle>
+          <Divider style={{ backgroundColor: '#111111' }} />
+          <CardContent text = {'Post by: ' + item.Organizer} />
+          <CardContent text = {'Date and Time: '+ item.Date} />
+          <CardContent text = {'Contact: '+ item.Contact} />
+          <CardButton color = "#1976D2" title = "Attend Event" onPress={()=>{this.props.navigation.navigate('AttendEvent',{item})}}></CardButton>
+        </Card>
         )}
       
         />
@@ -133,12 +135,67 @@ class AllEvents extends React.Component{
         }
 }
 
+class AttendEvent extends React.Component{
+  state = {
+    SignedUp: false
+  }
+
+  SendData = async()=>{
+    const FormFields = this.JoinEventField.getValue()
+    try {
+      console.log(this.props.navigation.state.params.item['Event Name'])
+      let response = await fetch('https://cibo-api.herokuapp.com/MeetnEat/JoinEvent?EventName="'+this.props.navigation.state.params.item['Event Name']+'"&Organizer="'+this.props.navigation.state.params.item.Organizer+'"&Date="'+this.props.navigation.state.params.item.Date+'"&Address="'+FormFields.Address+'"&Contact="'+this.props.navigation.state.params.item.Contact+'"&Name="'+FormFields.Name+'"&Email='+FormFields.Email+"'&oid="+this.props.navigation.state.params.item._id.$oid)
+      let res = await response.json()
+      console.log(res)
+      if(res.status === "success"){
+        this.setState({
+          SignedUp: true
+        })
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  render(){
+    if(this.state.SignedUp){
+      return(
+        <SafeAreaView style = {{flex: 1, backgroundColor: '#03A9F4'}}>
+        <ScrollView style = {styles.container}>
+        <Card isDark style = {{backgroundColor : "#03A9F4", borderRadius : 10, marginTop:10, color:'white'}}>
+        <CardImage source = {{uri:'https://images.unsplash.com/photo-1535700601052-b90a78c466f5?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=f50a3776b0916ec81eac3ab6fc2d514c&auto=format&fit=crop&w=1340&q=80'}} ></CardImage>  
+        <CardTitle title = "Thank You." subtitle = "Gear up for the event. You should be getting a confirmation email soon." ></CardTitle>
+        </Card>
+        </ScrollView>
+        </SafeAreaView> 
+        )
+    }
+    else{
+      return(
+        <SafeAreaView style = {{flex: 1, backgroundColor: '#03A9F4'}}>
+        <Header outerContainerStyles = {{ borderBottomWidth:0}} backgroundColor = "#03A9F4" centerComponent={{ text: "Meet and Eat", style: {fontSize: 30, fontWeight:'300',color: '#fff' }}}/>
+        <ScrollView style = {styles.container}>
+        <Form ref={c => this.JoinEventField = c} type = {RSVP} />
+        <Button title = "Confirm MeetnEat" onPress = {this.SendData}></Button>
+        </ScrollView>
+        </SafeAreaView> 
+      )
+    }
+  }
+}
+
 const AppNavigator = createStackNavigator({
   MeetnEat: {
     screen: MeetnEat
   },
   CreateEvent:{
     screen: CreateEvent
+  },
+  AllEvents:{
+    screen: AllEvents
+  },
+  AttendEvent: {
+   screen: AttendEvent 
   }
 })
 
@@ -146,7 +203,7 @@ const AppNavigator = createStackNavigator({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#005f6b",
+    backgroundColor: "#1976D2",
     color:'white'
   }
 });
