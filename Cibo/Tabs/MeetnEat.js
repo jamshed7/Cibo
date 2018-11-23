@@ -4,7 +4,23 @@ import {Divider,Header, ListItem, Button } from 'react-native-elements'
 import { Card, CardTitle, CardContent, CardAction, CardButton, CardImage } from 'react-native-material-cards'
 import {createStackNavigator, createAppContainer} from 'react-navigation'
 import t from 'tcomb-form-native'
+let _ = require('lodash')
+const stylesheet = _.cloneDeep(t.form.Form.stylesheet)
 
+stylesheet.textbox.normal.backgroundColor = 'white'
+stylesheet.textbox.normal.marginTop = 3
+stylesheet.textbox.normal.marginBottom = 5
+stylesheet.textbox.normal.marginRight = 10
+stylesheet.textbox.normal.marginLeft = 10
+stylesheet.controlLabel.normal.color = 'white'
+stylesheet.controlLabel.normal.marginTop = 2
+stylesheet.textbox.error.backgroundColor = 'white'
+stylesheet.textbox.error.marginTop = 3
+stylesheet.textbox.error.marginBottom = 5
+stylesheet.textbox.error.marginRight = 10
+stylesheet.textbox.error.marginLeft = 10
+stylesheet.controlLabel.error.color = 'white'
+stylesheet.controlLabel.error.marginTop = 2
 
 class MeetnEat extends React.Component {
   static navigationOptions = {
@@ -32,10 +48,12 @@ class MeetnEat extends React.Component {
 }
 
 const Form = t.form.Form
+
 const EventDetails = t.struct({
     EventName : t.String,
     Organizer: t.String,
-    Date: t.String,
+    Date: t.Date,
+    Time: t.Date,
     Address: t.String,
     Contact: t.String
   })
@@ -45,6 +63,45 @@ const RSVP = t.struct({
     Email: t.String
 })
 
+const EventDetailsOptions = {
+  fields: {
+    EventName:{
+      label: "Event Name",
+      placeholder: 'Enter Event',
+    },
+    Organizer:{
+      label: "Organizer",
+      placeholder: 'Name of Organizer',
+    },
+    Date:{
+      label: "Date and Time",
+      mode: 'date',
+    },
+    Time:{
+      label:"Time",
+      mode: 'time',
+    },
+    Address:{
+      label: "Address",
+      placeholder: 'XXX Street',
+    },
+    Contact:{
+      label: "Phone Number",
+      placeholder: 'XXX XXXX XXXX',
+    },
+    Name:{
+      label: "Name",
+      placeholder: 'Name',
+    },
+    Email:{
+      label: "Email",
+      placeholder: 'john.doe@dinewithcibo.com',
+    }
+  },
+  stylesheet : stylesheet
+}
+
+
 
 class CreateEvent extends React.Component{
   state = {
@@ -53,7 +110,7 @@ class CreateEvent extends React.Component{
   SendData = async()=>{
     const FormFields = this.CreateEventField.getValue()
     try {
-      let response = await fetch('https://cibo-api.herokuapp.com/MeetnEat/AddEvent?EventName="'+FormFields.EventName+'"&Name="'+FormFields.Organizer+'"&Date="'+FormFields.Date+'"&Address="'+FormFields.Address+'"&Contact="'+FormFields.Contact+'"')
+      let response = await fetch('https://cibo-api.herokuapp.com/MeetnEat/AddEvent?EventName="'+FormFields.EventName+'"&Name="'+FormFields.Organizer+'"&Date="'+FormFields.Date+'"&Time="'+FormFields.Time+'"&Address="'+FormFields.Address+'"&Contact="'+FormFields.Contact+'"')
       let res = await response.json()
       if(res.status === "success"){
         this.setState({
@@ -61,7 +118,7 @@ class CreateEvent extends React.Component{
         })
       }
     } catch (error) {
-      console.error(error);
+      alert('Seems like something went wrong. Please try again.')
     }
   }
 
@@ -83,8 +140,8 @@ class CreateEvent extends React.Component{
         <SafeAreaView style = {{flex: 1, backgroundColor: '#008c9e'}}>
         <Header outerContainerStyles = {{ borderBottomWidth:0}} backgroundColor = "#03A9F4" centerComponent={{ text: "Meet and Eat", style: {fontSize: 30, fontWeight:'300',color: '#fff' }}}/>
         <ScrollView style = {styles.container}>
-        <Form ref={c => this.CreateEventField = c} type = {EventDetails} />
-        <Button title = "Confirm MeetnEat" onPress = {this.SendData}></Button>
+        <Form ref={c => this.CreateEventField = c} type = {EventDetails} options = {EventDetailsOptions}/>
+        <Button title = "Confirm MeetnEat" onPress = {this.SendData} buttonStyle={{borderRadius:5, backgroundColor:'#03A9F4'}}></Button>
         </ScrollView>
         </SafeAreaView> 
       )
@@ -144,7 +201,7 @@ class AttendEvent extends React.Component{
     const FormFields = this.JoinEventField.getValue()
     try {
       console.log(this.props.navigation.state.params.item['Event Name'])
-      let response = await fetch('https://cibo-api.herokuapp.com/MeetnEat/JoinEvent?EventName="'+this.props.navigation.state.params.item['Event Name']+'"&Organizer="'+this.props.navigation.state.params.item.Organizer+'"&Date="'+this.props.navigation.state.params.item.Date+'"&Address="'+FormFields.Address+'"&Contact="'+this.props.navigation.state.params.item.Contact+'"&Name="'+FormFields.Name+'"&Email='+FormFields.Email+"'&oid="+this.props.navigation.state.params.item._id.$oid)
+      let response = await fetch('https://cibo-api.herokuapp.com/MeetnEat/JoinEvent?EventName="'+this.props.navigation.state.params.item['Event Name']+'"&Organizer="'+this.props.navigation.state.params.item.Organizer+'"&Date="'+this.props.navigation.state.params.item.Date+'"&Address="'+FormFields.Address+'"&Contact="'+this.props.navigation.state.params.item.Contact+'"&Name="'+FormFields.Name+'"&Email="'+FormFields.Email+'"&oid='+this.props.navigation.state.params.item._id.$oid+'&Time="'+this.props.navigation.state.params.item.Time+'"')
       let res = await response.json()
       console.log(res)
       if(res.status === "success"){
@@ -153,7 +210,7 @@ class AttendEvent extends React.Component{
         })
       }
     } catch (error) {
-      console.error(error);
+      alert('Seems like something went wrong. Please try again.')
     }
   }
 
@@ -175,8 +232,8 @@ class AttendEvent extends React.Component{
         <SafeAreaView style = {{flex: 1, backgroundColor: '#03A9F4'}}>
         <Header outerContainerStyles = {{ borderBottomWidth:0}} backgroundColor = "#03A9F4" centerComponent={{ text: "Meet and Eat", style: {fontSize: 30, fontWeight:'300',color: '#fff' }}}/>
         <ScrollView style = {styles.container}>
-        <Form ref={c => this.JoinEventField = c} type = {RSVP} />
-        <Button title = "Confirm MeetnEat" onPress = {this.SendData}></Button>
+        <Form ref={c => this.JoinEventField = c} type = {RSVP} options = {EventDetailsOptions}/>
+        <Button title = "Confirm MeetnEat" onPress = {this.SendData} buttonStyle={{borderRadius:5, backgroundColor:'#03A9F4'}}></Button>
         </ScrollView>
         </SafeAreaView> 
       )
@@ -205,6 +262,12 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#1976D2",
     color:'white'
+  },
+  forms:{
+    marginLeft:5,
+    marginRight: 5,
+    color:'white',
+    backgroundColor: 'white'
   }
 });
 export default createAppContainer(AppNavigator)
