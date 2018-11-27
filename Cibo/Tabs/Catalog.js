@@ -1,6 +1,7 @@
 import React from 'react'
 import { SafeAreaView,View,ScrollView, Text, StyleSheet, FlatList, Dimensions} from 'react-native'
 import { Header,Card, ListItem, Button,SearchBar} from 'react-native-elements'
+import {createStackNavigator, createAppContainer } from 'react-navigation'
 
 class Catalog extends React.Component {
   constructor(props){
