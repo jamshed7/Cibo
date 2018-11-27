@@ -1,74 +1,93 @@
-import React from 'react'
-import { SafeAreaView,View,ScrollView, Text, StyleSheet, FlatList, Dimensions} from 'react-native'
-import { Header,Card, ListItem, Button,SearchBar} from 'react-native-elements'
-import {createStackNavigator, createAppContainer } from 'react-navigation'
+import React from "react";
+import {SafeAreaView,View,ScrollView,Text,StyleSheet,FlatList,Dimensions} from "react-native"
+import {Header,ListItem,Button,SearchBar,Divider} from "react-native-elements"
+import {Card,CardTitle,CardContent,CardAction,CardButton,CardImage} from "react-native-material-cards";
+
 
 class Catalog extends React.Component {
-  constructor(props){
-    super(props)
-    const width = Dimensions.get('screen').width
+  constructor(props) {
+    super(props);
+    const width = Dimensions.get("screen").width;
   }
 
   state = {
-    Restaurants : []
-  }
+    Restaurants: []
+  };
 
-  fetchData = async() =>{
-    try{
-      let response = await fetch('https://cibo-api.herokuapp.com/Catalog/GetAllRestaurants')
-      let json = await response.json()
+  fetchData = async () => {
+    try {
+      let response = await fetch(
+        "https://cibo-api.herokuapp.com/Catalog/GetAllRestaurants"
+      );
+      let json = await response.json();
       this.setState({
-        Restaurants : json
-      })
-    }
-    catch(error){
+        Restaurants: json
+      });
+    } catch (error) {}
+  };
 
-    }
+  componentWillMount() {
+    this.fetchData();
   }
 
-  componentWillMount(){
-    this.fetchData()
-  }
-
-  searchResult = (e) =>{
-    let text = e.toLowerCase()
-    let Restaurants = this.state.Restaurants
-    let Results = Restaurants.filter((item) => {
-      return item.name.toLowerCase().match(text)
-    })
-    if(!text){
+  searchResult = e => {
+    let text = e.toLowerCase();
+    let Restaurants = this.state.Restaurants;
+    let Results = Restaurants.filter(item => {
+      return item.name.toLowerCase().match(text);
+    });
+    if (!text) {
       this.setState({
         Restaurants: Restaurants
-      })
-    }
-    else if(Array.isArray(Results)) {
+      });
+    } else if (Array.isArray(Results)) {
       this.setState({
         data: Results
-      })
-  }
-}
-
+      });
+    }
+  };
 
   render() {
-    let ScreenWidth = Dimensions.get('screen').width
+    let ScreenWidth = Dimensions.get("screen").width;
     return (
-        <SafeAreaView style={{flex: 1, backgroundColor: '#D32F2F'}}>
-        <SearchBar searchIcon={{ size: 24 }} onChangeText = {this.searchResult.bind(this)} placeholder='Search Cibo here.' containerStyle = {{width:ScreenWidth, backgroundColor:'#D32F2F',height:50,borderBottomColor:'#D32F2F',borderTopColor:'#D32F2F'}} />
-        <ScrollView style = {styles.container}>
-        <FlatList
-        data = {this.state.Restaurants}
-        keyExtractor={(item) => item._id.$oid}
-        renderItem={({ item }) => (
-          <Text>{item.name}</Text>
-        )}
+      <SafeAreaView style={{ flex: 1, backgroundColor: "#D32F2F" }}>
+        <SearchBar
+          searchIcon={{ size: 24 }}
+          onChangeText={this.searchResult.bind(this)}
+          placeholder="Search Cibo here."
+          containerStyle={{
+            width: ScreenWidth,
+            backgroundColor: "#D32F2F",
+            height: 50,
+            borderBottomColor: "#D32F2F",
+            borderTopColor: "#D32F2F"
+          }}
         />
+        <ScrollView style={styles.container}>
+          <FlatList
+            data={this.state.Restaurants}
+            keyExtractor={item => item._id.$oid}
+            renderItem={({ item }) => (
+              <Card
+                style={{
+                  backgroundColor: "#FFFFFF",
+                  borderRadius: 10,
+                  marginTop: 10
+                }}
+              >
+                <Divider style={{ backgroundColor: "#FFFFFF" }} />
+                <CardTitle title={item.name} color="#1976D2" />
+                <CardContent text={"Address: " + item.vicinity} />
+                <CardContent text={"Rating: " + item.rating} />
+                <CardContent text={"Price Level (1-3): " + item.price_level} />
+              </Card>
+            )}
+          />
         </ScrollView>
-        </SafeAreaView>
+      </SafeAreaView>
     );
   }
 }
-
-
 
 const styles = StyleSheet.create({
   container: {
@@ -76,4 +95,4 @@ const styles = StyleSheet.create({
     backgroundColor: "white"
   }
 });
-export default Catalog
+export default Catalog;
