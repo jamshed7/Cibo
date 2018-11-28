@@ -9,15 +9,28 @@ import Editorial from './Editorial'
 
 const BottomTabs = createBottomTabNavigator({
     Catalog: {
-        screen: Catalog
-    },
+        screen: Catalog,
+    }
+    ,
     MeetnEat: {
         screen: MeetnEat
     },
     Editorial: {
         screen: Editorial
-    }
-})
+    },
+},{
+    tabBarOptions: {
+        
+        activeTintColor: '#e91e63',
+        labelStyle: {
+          fontSize: 12,
+        },
+        style: {
+          backgroundColor: 'blue',
+        },
+      }
+}
+)
 
 const AppContainer = createAppContainer(BottomTabs)
 

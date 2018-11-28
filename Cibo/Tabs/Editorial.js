@@ -12,6 +12,8 @@ class Editorial extends React.Component {
     header: null,
     }
 
+    
+
   state = {
     data : []
   };
