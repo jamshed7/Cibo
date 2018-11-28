@@ -1,10 +1,14 @@
 import React from "react";
 import {SafeAreaView,View,ScrollView,Text,StyleSheet,FlatList,Dimensions} from "react-native"
 import {Header,ListItem,Button,SearchBar,Divider} from "react-native-elements"
-import {Card,CardTitle,CardContent,CardAction,CardButton,CardImage} from "react-native-material-cards";
+import {Card,CardTitle,CardContent,CardAction,CardButton,CardImage} from "react-native-material-cards"
+import {createStackNavigator, createAppContainer} from 'react-navigation'
 
 
 class Catalog extends React.Component {
+  static navigationOptions = {
+    header: null,
+    }
   constructor(props) {
     super(props);
     const width = Dimensions.get("screen").width;
@@ -80,6 +84,7 @@ class Catalog extends React.Component {
                 <CardContent text={"Address: " + item.vicinity} />
                 <CardContent text={"Rating: " + item.rating} />
                 <CardContent text={"Price Level (1-3): " + item.price_level} />
+                <CardButton title="Explore Restaurant" onPress={()=>this.props.navigation.navigate('Featured',{item})} color='#D32F2F'/>
               </Card>
             )}
           />
@@ -89,10 +94,32 @@ class Catalog extends React.Component {
   }
 }
 
+class Featured extends React.Component{
+  render(){
+    return(
+      <ScrollView style = {{flex:1, backgroundColor:'#ffffff'}}>
+      <Card style = {{backgroundColor : "#ffffff", borderRadius : 10, margin:0,color:'white'}}>
+      <CardTitle title="Hello"></CardTitle>
+      </Card>
+    </ScrollView>
+    )
+  }
+}
+
+
+const StackNavigator = createStackNavigator({
+  Catalog:{
+    screen:Catalog
+  },
+  Featured:{
+    screen:Featured
+  }  
+})
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "white"
   }
 });
-export default Catalog;
+export default createAppContainer(StackNavigator)
