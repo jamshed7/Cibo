@@ -74,7 +74,7 @@ const EventDetailsOptions = {
       placeholder: 'Name of Organizer',
     },
     Date:{
-      label: "Date and Time",
+      label: "Date",
       mode: 'date',
     },
     Time:{
