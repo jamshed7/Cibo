@@ -12,7 +12,7 @@ class Editorial extends React.Component {
     header: null,
     }
 
-    
+
 
   state = {
     data : []
@@ -30,14 +30,14 @@ class Editorial extends React.Component {
 
   render() {
     return (
-      <SafeAreaView style={{flex: 1, backgroundColor: '#353866'}}>
-      <Header outerContainerStyles = {{ borderBottomWidth:0}} backgroundColor = "#353866" centerComponent={{ text: 'The Cibo Editorial', style: {fontSize: 30, fontWeight:'300',color: '#fff' }}}/>
+      <SafeAreaView style={{flex: 1, backgroundColor: '#303F9F'}}>
+      <Header outerContainerStyles = {{ borderBottomWidth:0}} backgroundColor = "#303F9F" centerComponent={{ text: 'The Cibo Editorial', style: {fontSize: 30, fontWeight:'300',color: '#fff' }}}/>
       <ScrollView style = {styles.container}>
         <FlatList
         data = {this.state.data}
         keyExtractor={(item) => item._id.$oid}
         renderItem={({ item }) => (
-          <Card style = {{backgroundColor : "#54546c", borderRadius : 10, marginTop:10}}>
+          <Card style = {{backgroundColor : "#303F9F", borderRadius : 10, marginTop:10}}>
             <CardImage source={{uri: item.ImageLink}} title={item.Title} style = {{fontWeight:'200', color:'orange',backgroundColor:'rgba(52, 52, 52, 0.8)'}}/>
             <CardButton onPress={() => this.props.navigation.navigate('Article',{item})} title={Math.ceil(item.Body.length/256) + ' min read by The Cibo Team'} color = "white" />
           </Card>
@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: "#34314c",
+    backgroundColor: "#536DFE",
   },
   ArticleListing: {
     height: (Dimensions.get('window') - 50)/2

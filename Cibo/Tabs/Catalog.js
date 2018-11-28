@@ -40,38 +40,21 @@ class Catalog extends React.Component {
     this.fetchData();
   }
 
-  searchResult = e => {
-    let text = e.toLowerCase();
-    let Restaurants = this.state.Restaurants;
-    let Results = Restaurants.filter(item => {
-      return item.name.toLowerCase().match(text);
-    });
-    if (!text) {
-      this.setState({
-        Restaurants: Restaurants
-      });
-    } else if (Array.isArray(Results)) {
-      this.setState({
-        data: Results
-      });
-    }
-  };
-
   render() {
     let ScreenWidth = Dimensions.get("screen").width;
     const filtered = this.state.Restaurants.filter(createFilter(this.state.term, KEYS))
     return (
-      <SafeAreaView style={{ flex: 1, backgroundColor: "#D32F2F" }}>
+      <SafeAreaView style={{ flex: 1, backgroundColor: "#303F9F" }}>
         <SearchBar
           searchIcon={{ size: 24 }}
           onChangeText={(term) => { this.OnChangeSearchText(term) }}
           placeholder="Search Cibo here."
           containerStyle={{
             width: ScreenWidth,
-            backgroundColor: "#D32F2F",
+            backgroundColor: "#303F9F",
             height: 50,
-            borderBottomColor: "#D32F2F",
-            borderTopColor: "#D32F2F"
+            borderBottomColor: "#303F9F",
+            borderTopColor: "#303F9F"
           }}
         />
         <ScrollView style={styles.container}>
@@ -85,11 +68,11 @@ class Catalog extends React.Component {
               }}
             >
               <Divider style={{ backgroundColor: "#FFFFFF" }} />
-              <CardTitle title={item.name} color="#1976D2" />
+              <CardTitle title={item.name} style={{color:'#536DFE'}} />
               <CardContent text={"Address: " + item.vicinity} />
               <CardContent text={"Rating: " + item.rating} />
               <CardContent text={"Price Level (1-3): " + item.price_level} />
-              <CardButton title="Explore Restaurant" onPress={()=>this.props.navigation.navigate('Featured',{item})} color='#D32F2F'/>
+              <CardButton title="Explore Restaurant" onPress={()=>this.props.navigation.navigate('Featured',{item})} color='#303F9F'/>
             </Card>
             )
           })}
@@ -111,8 +94,8 @@ class Featured extends React.Component{
     let ImageWidth = Dimensions.get('screen').width
     return(
       <ScrollView style = {{flex:1, backgroundColor:'#ffffff'}}>
-      <Header outerContainerStyles = {{ borderBottomWidth:0}} backgroundColor = "#D32F2F" centerComponent={{ text: this.props.navigation.state.params.item.name, style: {fontSize:20,fontWeight:'400',color: '#fff' }}}/>
-      <Card style = {{backgroundColor:"#D32F2F"}}>
+      <Header outerContainerStyles = {{ borderBottomWidth:0}} backgroundColor = "#303F9F" centerComponent={{ text: this.props.navigation.state.params.item.name, style: {fontSize:20,fontWeight:'400',color: '#fff' }}}/>
+      <Card style = {{backgroundColor:"#536DFE"}}>
         <CardImage source = {{uri: URI}} />
       </Card>
       <Header outerContainerStyles = {{ borderBottomWidth:0}} backgroundColor = "#512DA8" centerComponent={{ text: 'Ratings by Google: ' + this.props.navigation.state.params.item.rating, style: {fontSize:20,fontWeight:'300',color: '#fff',margin:0}}}/>
@@ -136,7 +119,7 @@ const StackNavigator = createStackNavigator({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "white"
+    backgroundColor: "#536DFE"
   },
   UberButton: {
     borderRadius: 5,
