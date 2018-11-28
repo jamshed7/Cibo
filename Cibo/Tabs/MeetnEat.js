@@ -34,7 +34,7 @@ class MeetnEat extends React.Component {
       <ScrollView style = {styles.container}>
       <Card isDark style = {{backgroundColor : "#303F9F", borderRadius : 10, marginTop:10, color:'white'}}>
       <CardImage source = {{uri:'https://images.unsplash.com/photo-1535700601052-b90a78c466f5?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=f50a3776b0916ec81eac3ab6fc2d514c&auto=format&fit=crop&w=1340&q=80'}} ></CardImage>  
-      <CardTitle title = "Good food is all the sweater when shared with great friends" subtitle = "Organize or attend an event or as we call it - Meetn'Eat" ></CardTitle>
+      <CardTitle title = "Good food is better when shared with great friends" subtitle = "Organize or attend an event or as we call it - Meetn'Eat" ></CardTitle>
       <CardAction separator={true} inColumn={false}>
       <CardButton color = "white" title= "Setup an event" onPress = {() => this.props.navigation.navigate('CreateEvent')}></CardButton>
       <CardButton color = "white" title= "View Events" onPress = {() => this.props.navigation.navigate('AllEvents')}></CardButton>

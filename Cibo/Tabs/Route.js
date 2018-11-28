@@ -9,6 +9,14 @@ import MeetnEat from './MeetnEat'
 import Editorial from './Editorial'
 
 const BottomTabs = createBottomTabNavigator({
+    Editorial: {
+        screen: Editorial,
+        navigationOptions: {
+            tabBarIcon: ({ tintColor }) => (
+                <Ionicons name="md-paper" size={28} color="white" />
+            )
+          }
+    },
     Catalog: {
         screen: Catalog,
         navigationOptions: {
@@ -23,14 +31,6 @@ const BottomTabs = createBottomTabNavigator({
         navigationOptions: {
             tabBarIcon: ({ tintColor }) => (
                 <Ionicons name="ios-people" size={30} color="white" />
-            )
-          }
-    },
-    Editorial: {
-        screen: Editorial,
-        navigationOptions: {
-            tabBarIcon: ({ tintColor }) => (
-                <Ionicons name="md-paper" size={28} color="white" />
             )
           }
     },
