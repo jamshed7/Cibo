@@ -8,9 +8,6 @@ import MeetnEat from './MeetnEat'
 import Editorial from './Editorial'
 
 const BottomTabs = createBottomTabNavigator({
-    Featured : {
-        screen: Featured
-    },
     Catalog: {
         screen: Catalog
     },
