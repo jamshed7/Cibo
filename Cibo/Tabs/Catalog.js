@@ -46,6 +46,7 @@ class Catalog extends React.Component {
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: "#303F9F" }}>
         <SearchBar
+          lightTheme
           searchIcon={{ size: 24 }}
           onChangeText={(term) => { this.OnChangeSearchText(term) }}
           placeholder="Search Cibo here."
