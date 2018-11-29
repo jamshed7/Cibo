@@ -21,7 +21,11 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "bundleIdentifier": "com.dinewithcibo.cibo",
+      "supportsTablet":false
+    },
+    "android": {
+      "package": "com.dinewithcibo.cibo"
     }
   }
 }

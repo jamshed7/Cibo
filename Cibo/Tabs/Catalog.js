@@ -83,6 +83,10 @@ class Catalog extends React.Component {
     this.fetchData();
   }
 
+  refresh(){
+    this.forceUpdate()
+  }
+
   render() {
     let ScreenWidth = Dimensions.get("screen").width;
     const filtered = this.state.Restaurants.filter(createFilter(this.state.term, KEYS))
@@ -134,7 +138,7 @@ class Catalog extends React.Component {
               <CardContent text={"Address: " + item.vicinity} />
               <CardContent text={"Rating: " + item.rating} />
               <CardContent text={"Price Level (1-3): " + item.price_level} />
-              <CardButton title="Explore Restaurant" onPress={()=>this.props.navigation.navigate('Featured',{item})} color='#303F9F'/>
+              <CardButton title="Explore Restaurant" onPress={()=>this.props.navigation.navigate('Featured',{item,refresh:this.refresh})} color='#303F9F'/>
             </Card>
             )
           })}
@@ -154,6 +158,10 @@ class Featured extends React.Component{
       See : false
     }
   
+    ParentRefresh(){
+      this.props.navigation.state.params.refresh()
+    }
+
   render(){
     let URI = 'https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference='+this.props.navigation.state.params.item.photos[0].photo_reference+'&sensor=false&key=AIzaSyCrocPk4wsWjNUBgS0zU3UqS5TDGcWYbl8'
     console.log('https://m.uber.com/?action=setPickup&client_id=iBpczuPTW81ck_QPRHBVN_BmaT0-OfhT&pickup=my_location&dropoff[formatted_address]='+encodeURI(this.props.navigation.state.params.item.vicinity+', TX, USA'))
@@ -167,10 +175,11 @@ class Featured extends React.Component{
         <CardImage source = {{uri: URI}} />
       </Card>
       <Header outerContainerStyles = {{ borderBottomWidth:0}} backgroundColor = "#512DA8" centerComponent={{ text: 'Ratings by Google: ' + this.props.navigation.state.params.item.rating, style: {fontSize:20,fontWeight:'300',color: '#fff',margin:0}}}/>
+      <Header outerContainerStyles = {{ borderBottomWidth:0}} backgroundColor = "#1976D2" centerComponent={{ text: 'Price Level: ' + this.props.navigation.state.params.item.price_level, style: {fontSize:20,fontWeight:'300',color: '#fff',margin:0}}}/>
       <Header outerContainerStyles = {{ borderBottomWidth:0}} backgroundColor = "#3F51B5" centerComponent={{ text:this.props.navigation.state.params.item.vicinity, style: {fontSize:18,fontWeight:'300',color: '#fff'}}}/>
       <Header outerContainerStyles = {{ borderBottomWidth:0,height:90}} backgroundColor = "#448AFF" centerComponent={ <Button title = "Get a ride with Uber" onPress = {()=>{Linking.openURL("https://m.uber.com/ul/?client_id=eFrzgz_2Du2KYUXIi3MKaNOWtxo3i77K&action=setPickup"+'&pickup=my_location&dropoff[latitude]='+this.props.navigation.state.params.item.geometry.location.lat+'&dropoff[longitude]='+this.props.navigation.state.params.item.geometry.location.lng+'&dropoff[formatted_address]='+this.props.navigation.state.params.item.vicinity)}} buttonStyle={styles.UberButton}/>}/>
       <Header outerContainerStyles = {{ borderBottomWidth:0}} backgroundColor = "#536DFE" centerComponent={{ text: "Hashtags", style: {fontSize:20,fontWeight:'500',color: '#fff',margin:0}}}/>
-      <Header outerContainerStyles = {{ borderBottomWidth:0,height:90}} backgroundColor = "#536DFE" centerComponent={ <Button buttonStyle = {styles.AddHashtagButton} title = "Add a hashtag" onPress = {()=>{this.props.navigation.navigate('HashtagAdd',{'oid':OIDtoHashtag})}}/>} />
+      <Header outerContainerStyles = {{ borderBottomWidth:0,height:90}} backgroundColor = "#536DFE" centerComponent={ <Button buttonStyle = {styles.AddHashtagButton} title = "Add a hashtag" onPress = {()=>{this.props.navigation.navigate('HashtagAdd',{'oid':OIDtoHashtag,GrandParentRefresh:this.ParentRefresh})}}/>} />
       <View style = {{backgroundColor:"#536DFE",color:'white',flexDirection: 'row',flexWrap: "wrap",flex:1}}>
       {(Object.keys(this.props.navigation.state.params.item.hashtags)).map((hashtags, i) =>(
       <Button title = {hashtags} buttonStyle={{borderColor:'white',fontSize:'6',borderRadius:5,color:'white',borderColor:'white',marginBottom:5,marginLeft:1,marginWidth:1,backgroundColor:'##3F51B5',borderWidth:2}}/>
@@ -378,8 +387,8 @@ class HashtagAdd extends React.Component{
       return(
         <SafeAreaView style = {{flex: 1, backgroundColor: '#303F9F'}}>
         <ScrollView style = {styles.container}>
-        <Card isDark style = {{backgroundColor : "#303F9F", borderRadius : 10, marginTop:10, color:'white'}}>
-        <CardTitle title = "Thank You." subtitle = "Your contribution added to what make Cibo makes great - crowd recommendations." ></CardTitle>
+        <Card isDark style = {{backgroundColor : "#303F9F", borderRadius : 10, marginTop:10,}}>
+        <CardTitle title = "Thank You." subtitle = "Your contribution is what makes Cibo great - crowd recommendations." ></CardTitle>
         </Card>
         </ScrollView>
         </SafeAreaView> 

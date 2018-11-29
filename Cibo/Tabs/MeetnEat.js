@@ -32,7 +32,7 @@ class MeetnEat extends React.Component {
       <SafeAreaView style = {{flex: 1, backgroundColor: '#303F9F'}}>
       <Header outerContainerStyles = {{ borderBottomWidth:0}} backgroundColor = "#303F9F" centerComponent={{ text: "Meet and Eat", style: {fontSize: 30, fontWeight:'300',color: '#fff' }}}/>
       <ScrollView style = {styles.container}>
-      <Card isDark style = {{backgroundColor : "#303F9F", borderRadius : 10, marginTop:10, color:'white'}}>
+      <Card isDark style = {{backgroundColor : "#303F9F", borderRadius : 10, marginTop:10}}>
       <CardImage source = {{uri:'https://images.unsplash.com/photo-1535700601052-b90a78c466f5?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=f50a3776b0916ec81eac3ab6fc2d514c&auto=format&fit=crop&w=1340&q=80'}} ></CardImage>  
       <CardTitle title = "Good food is better when shared with great friends" subtitle = "Organize or attend an event or as we call it - Meetn'Eat" ></CardTitle>
       <CardAction separator={true} inColumn={false}>
@@ -127,7 +127,7 @@ class CreateEvent extends React.Component{
       return(
         <SafeAreaView style = {{flex: 1, backgroundColor: '#303F9F'}}>
         <ScrollView style = {styles.container}>
-        <Card isDark style = {{backgroundColor : "#303F9F", borderRadius : 10, marginTop:10, color:'white'}}>
+        <Card isDark style = {{backgroundColor : "#303F9F", borderRadius : 10, marginTop:10}}>
         <CardImage source = {{uri:'https://images.unsplash.com/photo-1535700601052-b90a78c466f5?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=f50a3776b0916ec81eac3ab6fc2d514c&auto=format&fit=crop&w=1340&q=80'}} ></CardImage>  
         <CardTitle title = "Thank You." subtitle = "We hope you have a great MeetnEat." ></CardTitle>
         </Card>
@@ -221,7 +221,7 @@ class AttendEvent extends React.Component{
       return(
         <SafeAreaView style = {{flex: 1, backgroundColor: '#303F9F'}}>
         <ScrollView style = {styles.container}>
-        <Card isDark style = {{backgroundColor : "#303F9F", borderRadius : 10, marginTop:10, color:'white'}}>
+        <Card isDark style = {{backgroundColor : "#303F9F", borderRadius : 10, marginTop:10}}>
         <CardImage source = {{uri:'https://images.unsplash.com/photo-1535700601052-b90a78c466f5?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=f50a3776b0916ec81eac3ab6fc2d514c&auto=format&fit=crop&w=1340&q=80'}} ></CardImage>  
         <CardTitle title = "Thank You." subtitle = "Gear up for the event. You should be getting a confirmation email soon." ></CardTitle>
         </Card>
