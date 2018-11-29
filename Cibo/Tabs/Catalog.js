@@ -55,9 +55,21 @@ class Catalog extends React.Component {
             backgroundColor: "#303F9F",
             height: 50,
             borderBottomColor: "#303F9F",
-            borderTopColor: "#303F9F"
+            borderTopColor: "#303F9F",
+            marginBottom:5
           }}
         />
+      <View style = {{backgroundColor:"#303F9F",color:'white',flexDirection: 'row',flexWrap: "wrap",marginBottom:10}}>
+      <Button title = "#fastfood" buttonStyle={{borderColor:'white',fontSize:'1',borderRadius:3,color:'white',borderColor:'white',marginBottom:1,backgroundColor:'#303F9F',borderWidth:1,fontWeight:'100'}}/>
+      <Button title = "#bangforbuck" buttonStyle={{borderColor:'white',fontSize:'1',borderRadius:3,color:'white',borderColor:'white',marginBottom:1,backgroundColor:'#303F9F',borderWidth:1,fontWeight:'100'}}/>
+      <Button title = "#delicious" buttonStyle={{borderColor:'white',fontSize:'1',borderRadius:3,color:'white',borderColor:'white',marginBottom:1,backgroundColor:'#303F9F',borderWidth:1,fontWeight:'100'}}/>
+      <Button title = "#food" buttonStyle={{borderColor:'white',fontSize:'1',borderRadius:3,color:'white',borderColor:'white',marginBottom:1,marginLeft:1,backgroundColor:'#303F9F',borderWidth:1,fontWeight:'100'}}/>
+      <Button title = "#gourmet" buttonStyle={{borderColor:'white',fontSize:'1',borderRadius:3,color:'white',borderColor:'white',marginBottom:1,marginLeft:1,backgroundColor:'#303F9F',borderWidth:1,fontWeight:'100'}}/>
+      <Button title = "#healthy" buttonStyle={{borderColor:'white',fontSize:'1',borderRadius:3,color:'white',borderColor:'white',marginBottom:1,marginLeft:1,backgroundColor:'#303F9F',borderWidth:1,fontWeight:'100'}}/>
+      <Button title = "#hungry" buttonStyle={{borderColor:'white',fontSize:'1',borderRadius:3,color:'white',borderColor:'white',marginBottom:1,marginLeft:1,backgroundColor:'#303F9F',borderWidth:1,fontWeight:'100'}}/>
+      <Button title = "#sweet" buttonStyle={{borderColor:'white',fontSize:'1',borderRadius:3,color:'white',borderColor:'white',marginBottom:1,marginLeft:1,backgroundColor:'#303F9F',borderWidth:1,fontWeight:'100'}}/>
+      <Button title = "#yummy" buttonStyle={{borderColor:'white',fontSize:'1',borderRadius:3,color:'white',borderColor:'white',marginBottom:1,marginLeft:1,backgroundColor:'#303F9F',borderWidth:1,fontWeight:'100'}}/>
+      </View>
         <ScrollView style={styles.container}>
           {filtered.map(item => {
             return (
