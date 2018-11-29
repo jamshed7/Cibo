@@ -13,6 +13,16 @@ const AddHashtag = t.struct({
 })
 
 
+const AddHashtagOptions = {
+  fields: {
+    EventName:{
+      label: "",
+      placeholder: 'Enter Hashtag',
+    },
+}
+}
+
+
 const KEYS = ['name', 'vicinity']
 
 class Catalog extends React.Component {
@@ -140,7 +150,7 @@ class Featured extends React.Component{
       <Header outerContainerStyles = {{ borderBottomWidth:0,height:90}} backgroundColor = "#536DFE" centerComponent={ <Button buttonStyle = {styles.AddHashtagButton} title = "Add a hashtag" />}/>
       <View style = {{backgroundColor:"#536DFE",color:'white',flexDirection: 'row',flexWrap: "wrap",flex:1}}>
       {(Object.keys(this.props.navigation.state.params.item.hashtags)).map((hashtags, i) =>(
-      <Button title = {hashtags} buttonStyle={{borderColor:'white',fontSize:'6',borderRadius:5,color:'white',borderColor:'white',marginBottom:5,marginLeft:1,marginWidth:1,backgroundColor:'##3F51B5',borderWidth:2}}/>
+      <Button title = {hashtags} buttonStyle={{borderColor:'white',fontSize:'6',borderRadius:5,color:'white',borderColor:'white',marginBottom:5,marginLeft:1,marginWidth:1,backgroundColor:'##3F51B5',borderWidth:2}} onPress = {this.props.navigation.navigate('HashtagAdd',this.props.navigation.state.params.item)}/>
       ))}
       </View>
     </ScrollView>
@@ -318,6 +328,53 @@ class FilteredCatalogSort extends React.Component {
   }
 }
 
+class HashtagAdd extends React.Component{
+  state = {
+    SignedUp: false
+  }
+
+  SendData = async()=>{
+    const FormFields = this.JoinEventField.getValue()
+    try {
+      console.log(this.props.navigation.state.params.item['Event Name'])
+      let response = await fetch('https://cibo-api.herokuapp.com/MeetnEat/JoinEvent?EventName="'+this.props.navigation.state.params.item['Event Name']+'"&Organizer="'+this.props.navigation.state.params.item.Organizer+'"&Date="'+this.props.navigation.state.params.item.Date+'"&Address="'+this.props.navigation.state.params.item.Address+'"&Contact="'+this.props.navigation.state.params.item.Contact+'"&Name="'+FormFields.Name+'"&Email="'+FormFields.Email+'"&oid='+this.props.navigation.state.params.item._id.$oid+'&Time="'+this.props.navigation.state.params.item.Time+'"')
+      let res = await response.json()
+      console.log(res)
+      if(res.status === "success"){
+        this.setState({
+          added: true
+        })
+      }
+    } catch (error) {
+      alert('Seems like something went wrong. Please try again.')
+    }
+  }
+
+  render(){
+    if(this.state.added){
+      return(
+        <SafeAreaView style = {{flex: 1, backgroundColor: '#303F9F'}}>
+        <ScrollView style = {styles.container}>
+        <Card isDark style = {{backgroundColor : "#303F9F", borderRadius : 10, marginTop:10, color:'white'}}>
+        <CardTitle title = "Thank You." subtitle = "Your contribution added to what make Cibo makes special - crowd recommendations." ></CardTitle>
+        </Card>
+        </ScrollView>
+        </SafeAreaView> 
+        )
+    }
+    else{
+      return(
+        <SafeAreaView style = {{flex: 1, backgroundColor: '#303F9F'}}>
+        <Header outerContainerStyles = {{ borderBottomWidth:0}} backgroundColor = "#303F9F" centerComponent={{ text: "Meet and Eat", style: {fontSize: 30, fontWeight:'300',color: '#fff' }}}/>
+        <ScrollView style = {styles.container}>
+        <Form ref={c => this.AddNewHashtag = c} type = {AddHashtag} options = {AddHashtagOptions}/>
+        <Button title = "Confirm MeetnEat" onPress = {this.SendData} buttonStyle={{borderRadius:5, backgroundColor:'#303F9F'}}></Button>
+        </ScrollView>
+        </SafeAreaView> 
+      )
+    }
+  }
+}
 
 const StackNavigator = createStackNavigator({
   Catalog:{
@@ -331,6 +388,9 @@ const StackNavigator = createStackNavigator({
   },
   FilteredCatalogSort:{
     screen:FilteredCatalogSort
+  },
+  HashtagAdd:{
+    screen:HashtagAdd
   }    
 })
 

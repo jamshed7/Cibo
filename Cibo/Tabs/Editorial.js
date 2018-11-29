@@ -5,7 +5,6 @@ import { Card, CardTitle, CardContent, CardAction, CardButton, CardImage } from 
 import {createStackNavigator, createAppContainer} from 'react-navigation'
 
 
-
 class Editorial extends React.Component {
   
   static navigationOptions = {
