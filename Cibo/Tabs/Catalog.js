@@ -74,7 +74,7 @@ class Catalog extends React.Component {
           }}
         />
         <ScrollView style={styles.container}>
-        <View style = {{backgroundColor:"#536DFE",color:'white',flexDirection: 'row',flexWrap: "wrap",marginBottom:10,marginTop:10}}>
+        <View style = {{backgroundColor:"#536DFE",color:'white',flexDirection: 'row',flexWrap: "wrap",marginTop:10}}>
       <Button title = "#fastfood" buttonStyle={{borderColor:'white',borderRadius:3,borderColor:'white',margin:1,backgroundColor:'#536DFE',borderWidth:1,}} onPress = {()=>{this.props.navigation.navigate('FilteredCatalog',{'hashtag':'fastfood'})}}/>
       <Button title = "#bangforbuck" buttonStyle={{borderColor:'white',borderRadius:3,borderColor:'white',margin:1,backgroundColor:'#536DFE',borderWidth:1,}} onPress = {()=>{this.props.navigation.navigate('FilteredCatalog',{'hashtag':'bangforbuck'})}}/>
       <Button title = "#delicious" buttonStyle={{borderColor:'white',borderRadius:3,borderColor:'white',margin:1,backgroundColor:'#536DFE',borderWidth:1,}} onPress = {()=>{this.props.navigation.navigate('FilteredCatalog',{'hashtag':'delicious'})}}/>
@@ -87,6 +87,7 @@ class Catalog extends React.Component {
       <Button title = "#alphabetical" buttonStyle={{borderColor:'white',borderRadius:3,borderColor:'white',margin:1,marginLeft:1,backgroundColor:'#536DFE',borderWidth:1,}} onPress = {()=>{this.props.navigation.navigate('FilteredCatalogSort',{'hashtag':'alphabetical'})}}/>
       
       </View>
+      <ActivityIndicator style={{opacity: this.state.loading ? 1.0 : 0.0}} animating={true} size="small" color = 'white'/>
           {filtered.map(item => {
             return (
               <Card
@@ -156,6 +157,7 @@ class FilteredCatalog extends React.Component {
   state = {
     Restaurants: [],
     term: '',
+    loading:true
   };
 
   OnChangeSearchText(term) {
@@ -170,6 +172,7 @@ class FilteredCatalog extends React.Component {
       let json = await response.json();
       this.setState({
         Restaurants: json,
+        loading:false
       });
     } catch (error) {}
   };
@@ -199,6 +202,7 @@ class FilteredCatalog extends React.Component {
           }}
         />
         <ScrollView style={styles.container}>
+        <ActivityIndicator style={{opacity: this.state.loading ? 1.0 : 0.0}} animating={true} size="small" color = 'white'/>
           {filtered.map(item => {
             {
               let list = item.hashtags

@@ -1,5 +1,5 @@
 import React from 'react'
-import {SafeAreaView,View,ScrollView, Text, StyleSheet, FlatList, Dimensions} from 'react-native'
+import {ActivityIndicator,SafeAreaView,View,ScrollView, Text, StyleSheet, FlatList, Dimensions} from 'react-native'
 import {Divider,Header, ListItem, Button } from 'react-native-elements'
 import { Card, CardTitle, CardContent, CardAction, CardButton, CardImage } from 'react-native-material-cards'
 import {createStackNavigator, createAppContainer} from 'react-navigation'
@@ -152,7 +152,8 @@ class CreateEvent extends React.Component{
 class AllEvents extends React.Component{
   
   state = {
-    data : []
+    data : [],
+    loading:true
   };
 
   componentWillMount(){
@@ -162,7 +163,7 @@ class AllEvents extends React.Component{
   fetchEvents = async() =>{
     const response = await fetch('https://cibo-api.herokuapp.com/MeetnEat/ShowAllEvents')
     const json = await response.json()
-    this.setState({data:json})
+    this.setState({data:json,loading:false})
   }
 
   render() {
@@ -170,6 +171,7 @@ class AllEvents extends React.Component{
       <SafeAreaView style={{flex: 1, backgroundColor: '#303F9F'}}>
       <Header outerContainerStyles = {{ borderBottomWidth:0}} backgroundColor = "#303F9F" centerComponent={{ text: 'Local Meet n\' Eats', style: {fontSize: 30, fontWeight:'300',color: '#fff' }}}/>
       <ScrollView style = {styles.container}>
+      <ActivityIndicator style={{opacity: this.state.loading ? 1.0 : 0.0}} animating={true} size="small" color = 'white'/>
         <FlatList
         data = {this.state.data}
         keyExtractor={(item) => item._id.$oid}
