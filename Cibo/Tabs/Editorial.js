@@ -31,7 +31,7 @@ class Editorial extends React.Component {
   render() {
     return (
       <SafeAreaView style={{flex: 1, backgroundColor: '#303F9F'}}>
-      <Header outerContainerStyles = {{ borderBottomWidth:0}} backgroundColor = "#303F9F" centerComponent={{ text: 'Welcome to Cibo', style: {fontSize: 30, fontWeight:'300',color: '#fff' }}}/>
+      <Header outerContainerStyles = {{ borderBottomWidth:0}} backgroundColor = "#303F9F" centerComponent={{ text: 'Editorial', style: {fontSize: 30, fontWeight:'300',color: '#fff' }}}/>
       <ScrollView style = {styles.container}>
         <FlatList
         data = {this.state.data}

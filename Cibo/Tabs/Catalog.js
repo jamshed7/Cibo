@@ -1,10 +1,18 @@
 import React from "react";
-import {Image,SafeAreaView,View,ScrollView,Text,StyleSheet,FlatList,Dimensions,Linking} from "react-native"
+import {ActivityIndicator,Image,SafeAreaView,View,ScrollView,Text,StyleSheet,FlatList,Dimensions,Linking} from "react-native"
 import {Header,ListItem,Button,SearchBar,Divider} from "react-native-elements"
 import {Card,CardTitle,CardContent,CardAction,CardButton,CardImage} from "react-native-material-cards"
 import {createStackNavigator, createAppContainer} from 'react-navigation'
 import SearchInput, { createFilter } from 'react-native-search-filter'
 let _ = require('underscore')
+import t from 'tcomb-form-native'
+const Form = t.form.Form
+
+const AddHashtag = t.struct({
+  NewHashtag: t.String,
+})
+
+
 const KEYS = ['name', 'vicinity']
 
 class Catalog extends React.Component {
@@ -19,6 +27,7 @@ class Catalog extends React.Component {
   state = {
     Restaurants: [],
     term: '',
+    loading:true
   };
 
   OnChangeSearchText(term) {
@@ -33,6 +42,7 @@ class Catalog extends React.Component {
       let json = await response.json();
       this.setState({
         Restaurants: json,
+        loading:false
       });
     } catch (error) {}
   };
@@ -44,6 +54,9 @@ class Catalog extends React.Component {
   render() {
     let ScreenWidth = Dimensions.get("screen").width;
     const filtered = this.state.Restaurants.filter(createFilter(this.state.term, KEYS))
+    if(this.Restaurants){
+      
+    }
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: "#303F9F" }}>
         <SearchBar
@@ -57,22 +70,23 @@ class Catalog extends React.Component {
             height: 50,
             borderBottomColor: "#303F9F",
             borderTopColor: "#303F9F",
-            marginBottom:5
+            marginBottom:10
           }}
         />
-      <View style = {{backgroundColor:"#303F9F",color:'white',flexDirection: 'row',flexWrap: "wrap",marginBottom:10}}>
-      <Button title = "#fastfood" buttonStyle={{borderColor:'white',borderRadius:3,color:'white',borderColor:'white',margin:1,backgroundColor:'#303F9F',borderWidth:1,fontWeight:'100'}} onPress = {()=>{this.props.navigation.navigate('FilteredCatalog',{'hashtag':'fastfood'})}}/>
-      <Button title = "#bangforbuck" buttonStyle={{borderColor:'white',borderRadius:3,color:'white',borderColor:'white',margin:1,backgroundColor:'#303F9F',borderWidth:1,fontWeight:'100'}} onPress = {()=>{this.props.navigation.navigate('FilteredCatalog',{'hashtag':'bangforbuck'})}}/>
-      <Button title = "#delicious" buttonStyle={{borderColor:'white',borderRadius:3,color:'white',borderColor:'white',margin:1,backgroundColor:'#303F9F',borderWidth:1,fontWeight:'100'}} onPress = {()=>{this.props.navigation.navigate('FilteredCatalog',{'hashtag':'delicious'})}}/>
-      <Button title = "#food" buttonStyle={{borderColor:'white',borderRadius:3,color:'white',borderColor:'white',margin:1,marginLeft:1,backgroundColor:'#303F9F',borderWidth:1,fontWeight:'100'}} onPress = {()=>{this.props.navigation.navigate('FilteredCatalog',{'hashtag':'food'})}}/>
-      <Button title = "#gourmet" buttonStyle={{borderColor:'white',borderRadius:3,color:'white',borderColor:'white',margin:1,marginLeft:1,backgroundColor:'#303F9F',borderWidth:1,fontWeight:'100'}} onPress = {()=>{this.props.navigation.navigate('FilteredCatalog',{'hashtag':'gourmet'})}}/>
-      <Button title = "#healthy" buttonStyle={{borderColor:'white',borderRadius:3,color:'white',borderColor:'white',margin:1,marginLeft:1,backgroundColor:'#303F9F',borderWidth:1,fontWeight:'100'}} onPress = {()=>{this.props.navigation.navigate('FilteredCatalog',{'hashtag':'healthy'})}}/>
-      <Button title = "#hungry" buttonStyle={{borderColor:'white',borderRadius:3,color:'white',borderColor:'white',margin:1,marginLeft:1,backgroundColor:'#303F9F',borderWidth:1,fontWeight:'100'}} onPress = {()=>{this.props.navigation.navigate('FilteredCatalog',{'hashtag':'hungry'})}}/>
-      <Button title = "#sweet" buttonStyle={{borderColor:'white',borderRadius:3,color:'white',borderColor:'white',margin:1,marginLeft:1,backgroundColor:'#303F9F',borderWidth:1,fontWeight:'100'}} onPress = {()=>{this.props.navigation.navigate('FilteredCatalog',{'hashtag':'sweet'})}} />
-      <Button title = "#yummy" buttonStyle={{borderColor:'white',borderRadius:3,color:'white',borderColor:'white',margin:1,marginLeft:1,backgroundColor:'#303F9F',borderWidth:1,fontWeight:'100'}} onPress = {()=>{this.props.navigation.navigate('FilteredCatalog',{'hashtag':'yummy'})}}/>
-      <Button title = "#alphabetical" buttonStyle={{borderColor:'white',fontSize:'1',borderRadius:3,color:'white',borderColor:'white',margin:1,marginLeft:1,backgroundColor:'#303F9F',borderWidth:1,fontWeight:'100'}} onPress = {()=>{this.props.navigation.navigate('FilteredCatalogSort',{'hashtag':'alphabetical'})}}/>
-      </View>
         <ScrollView style={styles.container}>
+        <View style = {{backgroundColor:"#536DFE",color:'white',flexDirection: 'row',flexWrap: "wrap",marginBottom:10,marginTop:10}}>
+      <Button title = "#fastfood" buttonStyle={{borderColor:'white',borderRadius:3,borderColor:'white',margin:1,backgroundColor:'#536DFE',borderWidth:1,}} onPress = {()=>{this.props.navigation.navigate('FilteredCatalog',{'hashtag':'fastfood'})}}/>
+      <Button title = "#bangforbuck" buttonStyle={{borderColor:'white',borderRadius:3,borderColor:'white',margin:1,backgroundColor:'#536DFE',borderWidth:1,}} onPress = {()=>{this.props.navigation.navigate('FilteredCatalog',{'hashtag':'bangforbuck'})}}/>
+      <Button title = "#delicious" buttonStyle={{borderColor:'white',borderRadius:3,borderColor:'white',margin:1,backgroundColor:'#536DFE',borderWidth:1,}} onPress = {()=>{this.props.navigation.navigate('FilteredCatalog',{'hashtag':'delicious'})}}/>
+      <Button title = "#food" buttonStyle={{borderColor:'white',borderRadius:3,borderColor:'white',margin:1,marginLeft:1,backgroundColor:'#536DFE',borderWidth:1,}} onPress = {()=>{this.props.navigation.navigate('FilteredCatalog',{'hashtag':'food'})}}/>
+      <Button title = "#gourmet" buttonStyle={{borderColor:'white',borderRadius:3,borderColor:'white',margin:1,marginLeft:1,backgroundColor:'#536DFE',borderWidth:1,}} onPress = {()=>{this.props.navigation.navigate('FilteredCatalog',{'hashtag':'gourmet'})}}/>
+      <Button title = "#healthy" buttonStyle={{borderColor:'white',borderRadius:3,borderColor:'white',margin:1,marginLeft:1,backgroundColor:'#536DFE',borderWidth:1,}} onPress = {()=>{this.props.navigation.navigate('FilteredCatalog',{'hashtag':'healthy'})}}/>
+      <Button title = "#hungry" buttonStyle={{borderColor:'white',borderRadius:3,borderColor:'white',margin:1,marginLeft:1,backgroundColor:'#536DFE',borderWidth:1,}} onPress = {()=>{this.props.navigation.navigate('FilteredCatalog',{'hashtag':'hungry'})}}/>
+      <Button title = "#sweet" buttonStyle={{borderColor:'white',borderRadius:3,borderColor:'white',margin:1,marginLeft:1,backgroundColor:'#536DFE',borderWidth:1,}} onPress = {()=>{this.props.navigation.navigate('FilteredCatalog',{'hashtag':'sweet'})}} />
+      <Button title = "#yummy" buttonStyle={{borderColor:'white',borderRadius:3,borderColor:'white',margin:1,marginLeft:1,backgroundColor:'#536DFE',borderWidth:1,}} onPress = {()=>{this.props.navigation.navigate('FilteredCatalog',{'hashtag':'yummy'})}}/>
+      <Button title = "#alphabetical" buttonStyle={{borderColor:'white',borderRadius:3,borderColor:'white',margin:1,marginLeft:1,backgroundColor:'#536DFE',borderWidth:1,}} onPress = {()=>{this.props.navigation.navigate('FilteredCatalogSort',{'hashtag':'alphabetical'})}}/>
+      
+      </View>
           {filtered.map(item => {
             return (
               <Card
@@ -100,9 +114,12 @@ class Catalog extends React.Component {
 class Featured extends React.Component{
   constructor(props){
       super(props)
+
     }
   
-
+    state = {
+      See : false
+    }
   
   render(){
     let URI = 'https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference='+this.props.navigation.state.params.item.photos[0].photo_reference+'&sensor=false&key=AIzaSyCrocPk4wsWjNUBgS0zU3UqS5TDGcWYbl8'
@@ -111,20 +128,20 @@ class Featured extends React.Component{
     console.log(this.props.navigation.state.params.item.hashtags)
     return(
       <ScrollView style = {{flex:1, backgroundColor:'#ffffff'}}>
-      <Header outerContainerStyles = {{ borderBottomWidth:0}} backgroundColor = "#303F9F" centerComponent={{ text: "Hashtags", style: {fontSize:30,fontWeight:'300',color: '#fff',marginBottom:5}}}/>
+      <Header outerContainerStyles = {{ borderBottomWidth:0}} backgroundColor = "#303F9F" centerComponent={{ text: this.props.navigation.state.params.item.name, style: {fontSize:30,fontWeight:'300',color: '#fff',marginBottom:5}}}/>
       <Card style = {{backgroundColor:"#536DFE"}}>
         <CardImage source = {{uri: URI}} />
       </Card>
       <Header outerContainerStyles = {{ borderBottomWidth:0}} backgroundColor = "#512DA8" centerComponent={{ text: 'Ratings by Google: ' + this.props.navigation.state.params.item.rating, style: {fontSize:20,fontWeight:'300',color: '#fff',margin:0}}}/>
       <Header outerContainerStyles = {{ borderBottomWidth:0}} backgroundColor = "#3F51B5" centerComponent={{ text:this.props.navigation.state.params.item.vicinity, style: {fontSize:18,fontWeight:'300',color: '#fff'}}}/>
       <Header outerContainerStyles = {{ borderBottomWidth:0,height:90}} backgroundColor = "#448AFF" centerComponent={ <Button title = "Get a ride with Uber" onPress = {()=>{Linking.openURL("https://m.uber.com/ul/?client_id=eFrzgz_2Du2KYUXIi3MKaNOWtxo3i77K&action=setPickup"+'&pickup=my_location&dropoff[latitude]='+this.props.navigation.state.params.item.geometry.location.lat+'&dropoff[longitude]='+this.props.navigation.state.params.item.geometry.location.lng+'&dropoff[formatted_address]='+this.props.navigation.state.params.item.vicinity)}} buttonStyle={styles.UberButton}/>}/>
-      <Header outerContainerStyles = {{ borderBottomWidth:0}} backgroundColor = "#536DFE" centerComponent={{ text: "Hashtags", style: {fontSize:20,fontWeight:'300',color: '#fff',margin:0}}}/>
+      <Header outerContainerStyles = {{ borderBottomWidth:0}} backgroundColor = "#536DFE" centerComponent={{ text: "Hashtags", style: {fontSize:20,fontWeight:'500',color: '#fff',margin:0}}}/>
+      <Header outerContainerStyles = {{ borderBottomWidth:0,height:90}} backgroundColor = "#536DFE" centerComponent={ <Button buttonStyle = {styles.AddHashtagButton} title = "Add a hashtag" />}/>
       <View style = {{backgroundColor:"#536DFE",color:'white',flexDirection: 'row',flexWrap: "wrap",flex:1}}>
       {(Object.keys(this.props.navigation.state.params.item.hashtags)).map((hashtags, i) =>(
       <Button title = {hashtags} buttonStyle={{borderColor:'white',fontSize:'6',borderRadius:5,color:'white',borderColor:'white',marginBottom:5,marginLeft:1,marginWidth:1,backgroundColor:'##3F51B5',borderWidth:2}}/>
       ))}
       </View>
-      <Header outerContainerStyles = {{ borderBottomWidth:0,height:90}} backgroundColor = "#536DFE" centerComponent={ <Button buttonStyle = {styles.AddHashtagButton} title = "Add a hashtag" />}/>
     </ScrollView>
     )
   }
@@ -290,6 +307,7 @@ class FilteredCatalogSort extends React.Component {
             </Card>
             )
           }})}
+
         </ScrollView>
       </SafeAreaView>
     );

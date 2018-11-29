@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, Text, View, Image, Dimensions } from 'react-native'
+import { SafeAreaView,StyleSheet, Text, View, Image, Dimensions } from 'react-native'
 import * as Expo from 'expo'
 import { Button } from 'react-native-elements'
 import { Ionicons } from '@expo/vector-icons'
@@ -54,6 +54,7 @@ export default class App extends React.Component {
 
 const LoginPage = props => {
   return (
+    <SafeAreaView style = {{backgroundColor:'#D81159'}}>
     <View style = {styles.LoginPage}>
       <Text style = {styles.Title}>Cibo</Text>
       <Image width = '5' height = '5' style = {{marginTop: 15,alignSelf:'center'}} source={require('./assets/LoginEating.png')}/>
@@ -61,6 +62,7 @@ const LoginPage = props => {
       <Text style = {styles.LoginDescription}>Use Cibo with Facebook</Text>
       <Button title='Login with Facebook' buttonStyle={styles.LoginButton} onPress={() => props.FacebookLogin()}/>
     </View>
+    </SafeAreaView>
   )
 }
 
@@ -75,7 +77,6 @@ const styles = StyleSheet.create({
   Title: {
     fontSize : 45,
     color: '#FFFFFF',
-    marginTop: 50,
     textAlign: 'center',
     fontWeight: '700'
   },
@@ -104,7 +105,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     alignContent: 'center',
     textAlign: 'center',
-    marginTop: 100,
+    marginTop:50,
     fontWeight: '300'
     
   },
