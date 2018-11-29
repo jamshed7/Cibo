@@ -5,8 +5,29 @@ import {Card,CardTitle,CardContent,CardAction,CardButton,CardImage} from "react-
 import {createStackNavigator, createAppContainer} from 'react-navigation'
 import SearchInput, { createFilter } from 'react-native-search-filter'
 let _ = require('underscore')
+let lodash = require('lodash')
 import t from 'tcomb-form-native'
+const stylesheet = lodash.cloneDeep(t.form.Form.stylesheet)
 const Form = t.form.Form
+
+
+
+stylesheet.textbox.normal.backgroundColor = 'white'
+stylesheet.textbox.normal.marginTop = 3
+stylesheet.textbox.normal.marginBottom = 5
+stylesheet.textbox.normal.marginRight = 10
+stylesheet.textbox.normal.marginLeft = 10
+stylesheet.controlLabel.normal.color = 'white'
+stylesheet.controlLabel.normal.marginTop = 2
+stylesheet.textbox.error.backgroundColor = 'white'
+stylesheet.textbox.error.marginTop = 3
+stylesheet.textbox.error.marginBottom = 5
+stylesheet.textbox.error.marginRight = 10
+stylesheet.textbox.error.marginLeft = 10
+stylesheet.controlLabel.error.color = 'white'
+stylesheet.controlLabel.error.marginTop = 2
+
+
 
 const AddHashtag = t.struct({
   NewHashtag: t.String,
@@ -15,11 +36,12 @@ const AddHashtag = t.struct({
 
 const AddHashtagOptions = {
   fields: {
-    EventName:{
-      label: "",
+    NewHashtag:{
+      label: " ",
       placeholder: 'Enter Hashtag',
     },
-}
+},
+stylesheet:stylesheet
 }
 
 
@@ -137,6 +159,7 @@ class Featured extends React.Component{
     console.log('https://m.uber.com/?action=setPickup&client_id=iBpczuPTW81ck_QPRHBVN_BmaT0-OfhT&pickup=my_location&dropoff[formatted_address]='+encodeURI(this.props.navigation.state.params.item.vicinity+', TX, USA'))
     let ImageWidth = Dimensions.get('screen').width
     console.log(this.props.navigation.state.params.item.hashtags)
+    const OIDtoHashtag = this.props.navigation.state.params.item._id.$oid
     return(
       <ScrollView style = {{flex:1, backgroundColor:'#ffffff'}}>
       <Header outerContainerStyles = {{ borderBottomWidth:0}} backgroundColor = "#303F9F" centerComponent={{ text: this.props.navigation.state.params.item.name, style: {fontSize:30,fontWeight:'300',color: '#fff',marginBottom:5}}}/>
@@ -147,10 +170,10 @@ class Featured extends React.Component{
       <Header outerContainerStyles = {{ borderBottomWidth:0}} backgroundColor = "#3F51B5" centerComponent={{ text:this.props.navigation.state.params.item.vicinity, style: {fontSize:18,fontWeight:'300',color: '#fff'}}}/>
       <Header outerContainerStyles = {{ borderBottomWidth:0,height:90}} backgroundColor = "#448AFF" centerComponent={ <Button title = "Get a ride with Uber" onPress = {()=>{Linking.openURL("https://m.uber.com/ul/?client_id=eFrzgz_2Du2KYUXIi3MKaNOWtxo3i77K&action=setPickup"+'&pickup=my_location&dropoff[latitude]='+this.props.navigation.state.params.item.geometry.location.lat+'&dropoff[longitude]='+this.props.navigation.state.params.item.geometry.location.lng+'&dropoff[formatted_address]='+this.props.navigation.state.params.item.vicinity)}} buttonStyle={styles.UberButton}/>}/>
       <Header outerContainerStyles = {{ borderBottomWidth:0}} backgroundColor = "#536DFE" centerComponent={{ text: "Hashtags", style: {fontSize:20,fontWeight:'500',color: '#fff',margin:0}}}/>
-      <Header outerContainerStyles = {{ borderBottomWidth:0,height:90}} backgroundColor = "#536DFE" centerComponent={ <Button buttonStyle = {styles.AddHashtagButton} title = "Add a hashtag" />}/>
+      <Header outerContainerStyles = {{ borderBottomWidth:0,height:90}} backgroundColor = "#536DFE" centerComponent={ <Button buttonStyle = {styles.AddHashtagButton} title = "Add a hashtag" onPress = {()=>{this.props.navigation.navigate('HashtagAdd',{'oid':OIDtoHashtag})}}/>} />
       <View style = {{backgroundColor:"#536DFE",color:'white',flexDirection: 'row',flexWrap: "wrap",flex:1}}>
       {(Object.keys(this.props.navigation.state.params.item.hashtags)).map((hashtags, i) =>(
-      <Button title = {hashtags} buttonStyle={{borderColor:'white',fontSize:'6',borderRadius:5,color:'white',borderColor:'white',marginBottom:5,marginLeft:1,marginWidth:1,backgroundColor:'##3F51B5',borderWidth:2}} onPress = {this.props.navigation.navigate('HashtagAdd',this.props.navigation.state.params.item)}/>
+      <Button title = {hashtags} buttonStyle={{borderColor:'white',fontSize:'6',borderRadius:5,color:'white',borderColor:'white',marginBottom:5,marginLeft:1,marginWidth:1,backgroundColor:'##3F51B5',borderWidth:2}}/>
       ))}
       </View>
     </ScrollView>
@@ -330,17 +353,17 @@ class FilteredCatalogSort extends React.Component {
 
 class HashtagAdd extends React.Component{
   state = {
-    SignedUp: false
+    added: false
   }
 
   SendData = async()=>{
-    const FormFields = this.JoinEventField.getValue()
+    const FormFields = this.AddNewHashtag.getValue()
     try {
-      console.log(this.props.navigation.state.params.item['Event Name'])
-      let response = await fetch('https://cibo-api.herokuapp.com/MeetnEat/JoinEvent?EventName="'+this.props.navigation.state.params.item['Event Name']+'"&Organizer="'+this.props.navigation.state.params.item.Organizer+'"&Date="'+this.props.navigation.state.params.item.Date+'"&Address="'+this.props.navigation.state.params.item.Address+'"&Contact="'+this.props.navigation.state.params.item.Contact+'"&Name="'+FormFields.Name+'"&Email="'+FormFields.Email+'"&oid='+this.props.navigation.state.params.item._id.$oid+'&Time="'+this.props.navigation.state.params.item.Time+'"')
+      let response = await fetch('https://cibo-api.herokuapp.com/Catalog/AddHashtag?hashtag='+(FormFields.NewHashtag).substring(1)+'&oid='+this.props.navigation.state.params.oid)
+      console.log('https://cibo-api.herokuapp.com/Catalog/AddHashtag?hashtag='+(FormFields.NewHashtag).substring(1)+'&oid='+this.props.navigation.state.params.oid)
       let res = await response.json()
-      console.log(res)
       if(res.status === "success"){
+        console.log(res)
         this.setState({
           added: true
         })
@@ -356,7 +379,7 @@ class HashtagAdd extends React.Component{
         <SafeAreaView style = {{flex: 1, backgroundColor: '#303F9F'}}>
         <ScrollView style = {styles.container}>
         <Card isDark style = {{backgroundColor : "#303F9F", borderRadius : 10, marginTop:10, color:'white'}}>
-        <CardTitle title = "Thank You." subtitle = "Your contribution added to what make Cibo makes special - crowd recommendations." ></CardTitle>
+        <CardTitle title = "Thank You." subtitle = "Your contribution added to what make Cibo makes great - crowd recommendations." ></CardTitle>
         </Card>
         </ScrollView>
         </SafeAreaView> 
@@ -365,10 +388,10 @@ class HashtagAdd extends React.Component{
     else{
       return(
         <SafeAreaView style = {{flex: 1, backgroundColor: '#303F9F'}}>
-        <Header outerContainerStyles = {{ borderBottomWidth:0}} backgroundColor = "#303F9F" centerComponent={{ text: "Meet and Eat", style: {fontSize: 30, fontWeight:'300',color: '#fff' }}}/>
+        <Header outerContainerStyles = {{ borderBottomWidth:0}} backgroundColor = "#303F9F" centerComponent={{ text: 'Let us know what you think', style: {fontSize: 20, fontWeight:'300',color: '#fff' }}}/>
         <ScrollView style = {styles.container}>
         <Form ref={c => this.AddNewHashtag = c} type = {AddHashtag} options = {AddHashtagOptions}/>
-        <Button title = "Confirm MeetnEat" onPress = {this.SendData} buttonStyle={{borderRadius:5, backgroundColor:'#303F9F'}}></Button>
+        <Button title = "Add Hashtag" onPress = {this.SendData} buttonStyle={{borderRadius:5, backgroundColor:'#303F9F'}}></Button>
         </ScrollView>
         </SafeAreaView> 
       )
