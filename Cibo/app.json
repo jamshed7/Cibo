@@ -1,11 +1,14 @@
 {
   "expo": {
     "name": "Cibo",
-    "description": "This project is really great.",
+    "description": "Cibo is a crowdsourced recommendations app for dining options around college campuses.",
     "slug": "Cibo",
     "privacy": "public",
     "sdkVersion": "31.0.0",
-    "platforms": ["ios", "android"],
+    "platforms": [
+      "ios",
+      "android"
+    ],
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -22,7 +25,7 @@
     ],
     "ios": {
       "bundleIdentifier": "com.dinewithcibo.cibo",
-      "supportsTablet":false
+      "supportsTablet": false
     },
     "android": {
       "package": "com.dinewithcibo.cibo"

@@ -387,8 +387,8 @@ class HashtagAdd extends React.Component{
       return(
         <SafeAreaView style = {{flex: 1, backgroundColor: '#303F9F'}}>
         <ScrollView style = {styles.container}>
-        <Card isDark style = {{backgroundColor : "#303F9F", borderRadius : 10, marginTop:10,}}>
-        <CardTitle title = "Thank You." subtitle = "Your contribution is what makes Cibo great - crowd recommendations." ></CardTitle>
+        <Card style = {{backgroundColor : "white", borderRadius : 10, marginTop:10, color:'#303F9F'}}>
+        <CardTitle title = "Thank You." subtitle = "Your contribution is what makes Cibo great - crowd recommendations." style = {{color:'white'}}></CardTitle>
         </Card>
         </ScrollView>
         </SafeAreaView> 
