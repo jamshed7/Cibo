@@ -4,7 +4,7 @@ import * as Expo from 'expo'
 import { Button } from 'react-native-elements'
 import { Ionicons } from '@expo/vector-icons'
 import  AppContainer  from './Tabs/Route'
-
+import  {FacebookCredentials} from './secret.js'
 
 export default class App extends React.Component {
   constructor(props){
@@ -14,7 +14,7 @@ export default class App extends React.Component {
 
   FacebookLogin = async() =>{
     try{
-      const {type, token, expires, permissions, declinedPermissions} = await Expo.Facebook.logInWithReadPermissionsAsync('2183243971931078',{
+      const {type, token, expires, permissions, declinedPermissions} = await Expo.Facebook.logInWithReadPermissionsAsync(FacebookCredentials.clientID,{
         permissions : ['public_profile','email'],
         behavior: 'browser'
       })
